@@ -1,0 +1,10 @@
+dist: xenial   # required for Python >= 3.7
+language: python
+python:
+  - "3.7"
+install:
+  - pip install -r requirements.txt
+  - curl https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md -o public-resolvers.md
+  - curl https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz | tar xvz --strip 1
+script:
+  - python3 doh_verifier.py
