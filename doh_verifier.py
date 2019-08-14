@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import concurrent.futures
@@ -26,7 +26,6 @@ def parse_resolvers(content):
     resolvers = []
     for r in result:
         # Skip sdns://
-
         stamp = r[3][7:]
 
         # FIX Padding.
@@ -88,7 +87,7 @@ def test_resolver(resolver):
             "name": "dl.google.com"
         }
         r = requests.get(resolver["url"], params=params, timeout=2)
-        resolver["latency"] = r.elapsed.total_seconds() * 1000
+        resolver["latency(ms)"] = int(r.elapsed.total_seconds() * 1000)
 
         for answer in r.json()["Answer"]:
             if answer["type"] == 1:
@@ -97,7 +96,7 @@ def test_resolver(resolver):
                 resolver["google"] = f"{ip}({country['country']['iso_code']})"
                 break
     except (ConnectTimeout, ReadTimeout):
-        resolver["latency"] = "timeout"
+        resolver["latency(ms)"] = "timeout"
     return resolver
 
 
