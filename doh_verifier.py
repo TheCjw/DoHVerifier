@@ -17,6 +17,7 @@ from libs.log import logger
 
 reader = maxminddb.open_database("GeoLite2-Country.mmdb")
 
+
 def parse_resolvers(content):
     result = re.findall(r"^##.+?(?P<resolver>.+$)(?P<description>(\n|.)+?)(?P<stamp>^sdns.+)",
                         content, re.M)
@@ -115,15 +116,16 @@ def main():
 
     result = []
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        future_list = {executor.submit(test_resolver, resolver): resolver for resolver in ipv4_resolvers}
+        future_list = {executor.submit(
+            test_resolver, resolver): resolver for resolver in ipv4_resolvers}
         for future in concurrent.futures.as_completed(future_list):
             try:
                 if future.result():
                     result.append(future.result())
-            except Exception as exc:
+            except:
                 pass
 
-    print(tabulate(result, headers = "keys", tablefmt="github"))
+    print(tabulate(result, headers="keys", tablefmt="github"))
 
 
 if __name__ == "__main__":
