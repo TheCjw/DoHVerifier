@@ -5,6 +5,6 @@ python:
 install:
   - pip install -r requirements.txt
   - curl https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md -o public-resolvers.md
-  - curl https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz | tar xvz --strip 1
+  - curl https://raw.githubusercontent.com/akeeba/geoip-plugin/8bf26d5abae7024622e6fca21648f2af1fb8876f/plugins/system/akgeoip/db/GeoLite2-Country.mmdb -o GeoLite2-Country.mmdb
 script:
   - python3 doh_verifier.py
